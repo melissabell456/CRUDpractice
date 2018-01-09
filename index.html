@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='stylesheet' type='text/css' href='stylesheets/main.css'>
     <title>Oh, Crud</title>
 </head>
 <body>
-    <h1>Practice with CRUD and Firebase</h1>
-    <script src="javascripts/main.js"></script>
+    <h1>My CRUDdy Garden</h1>
+    <div id="userGarden"></div>
+    <div id="addPlantForm">
+        <h2>Add a plant:</h2>
+        <p>Plant Name:</p>
+            <input type="text" id="plantName" placeholder="Plant Name" value="Cucumber"></input>
+        <p>Month To Plant:</p>
+            <input type="month" id="plantMonth" placeholder="Month To Plant"></input>
+        <input id="perennialTrue" type="radio" value="True" name="perennial" checked="checked">Perennial</input>
+        <input id="perennialFalse" type="radio" value="False" name="perennial">Annual</input>
+        <select id="sunlightNeed"> 
+            <option value="fullSun">Full Sun</option>
+            <option value="partialSun">Partial Sun</option>
+            <option value="noSun">No Sun/Shade</option>
+        </select>
+    </div>
+    <script src="dist/bundle.js"></script>
 </body>
 </html>

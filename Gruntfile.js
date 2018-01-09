@@ -3,7 +3,7 @@ module.exports = function(grunt){
       jshint: {
           files: ['javascripts/**/*.js'],
           options: {
-              predef: ['document', 'console', '$', 'alert'],
+              predef: ['document', 'console', 'alert'],
               esnext: true,
               globalstrict: true,
               globals: {},
@@ -13,7 +13,7 @@ module.exports = function(grunt){
       sass: {
           dist: {
               files: {
-                  'stylesheets/main.css': 'sass/style.scss'
+                  'stylesheets/main.css': 'SASS/main.scss'
               }
           }
       },
@@ -23,7 +23,7 @@ module.exports = function(grunt){
               tasks: ['jshint', 'browserify']
           },
           sass: {
-              files: ['sass/**/*.scss'],
+              files: ['SASS/**/*.scss'],
               tasks: ['sass']
           }
       },
