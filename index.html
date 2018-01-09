@@ -12,17 +12,34 @@
     <div id="userGarden"></div>
     <div id="addPlantForm">
         <h2>Add a plant:</h2>
-        <p>Plant Name:</p>
+        <h3>Plant Name:</h3>
             <input type="text" id="plantName" placeholder="Plant Name" value="Cucumber"></input>
-        <p>Month To Plant:</p>
-            <input type="month" id="plantMonth" placeholder="Month To Plant"></input>
-        <input id="perennialTrue" type="radio" value="True" name="perennial" checked="checked">Perennial</input>
-        <input id="perennialFalse" type="radio" value="False" name="perennial">Annual</input>
+        <h3>Month To Plant:</h3>
+            <select id="plantMonth"> 
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>    
+        <div id="plantCycles">
+            <input id="perennial" type="radio" value="perennial" name="plantCycle" checked="checked">Perennial</input>
+            <input id="annual" type="radio" value="annual" name="plantCycle">Annual</input>
+        </div>
+        <h3>Plant Location:</h3>
         <select id="sunlightNeed"> 
-            <option value="fullSun">Full Sun</option>
-            <option value="partialSun">Partial Sun</option>
-            <option value="noSun">No Sun/Shade</option>
+            <option value="full-Sun">Full Sun</option>
+            <option value="partial-Sun">Partial Sun</option>
+            <option value="no-Sun">No Sun/Shade</option>
         </select>
+        <button id="addPlant">Add To Garden</button>
     </div>
     <script src="dist/bundle.js"></script>
 </body>

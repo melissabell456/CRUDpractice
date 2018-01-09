@@ -9,3 +9,16 @@ plantFactory.getPlants()
     // console.log("on main.js", plantData);
     formatData.formatPlantData(plantData);
 });
+
+$("#addPlant").click ( () => {
+    let plantObj = {
+        name: $("#plantName").val(),
+        plantCycle: $("input[name=plantCycle]:checked").val(),
+        plantSeason: $("#plantMonth").val(),
+        sunlight: $("#sunlightNeed").val()
+    };
+    plantFactory.addPlants(plantObj)
+    .then( () => {
+        plantFactory.getPlants();
+    });
+});

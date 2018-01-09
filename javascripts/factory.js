@@ -16,3 +16,21 @@ module.exports.getPlants = () => {
         });
     });
 };
+
+module.exports.addPlants = (newPlant) => {
+    return new Promise( (resolve,reject) => {
+        $.ajax({
+            url: "https://fir-a5a79.firebaseio.com/plants.json",
+            method: "POST",
+            data: JSON.stringify(newPlant)
+        })
+        .done( (newPlantData) =>{
+            console.log(newPlantData);
+            resolve(newPlantData);
+        })
+        .fail((error) => {
+            reject(error);
+            console.log("error w/ data");
+        });
+    });
+};

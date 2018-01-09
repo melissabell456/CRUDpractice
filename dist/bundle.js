@@ -5,9 +5,7 @@ const $ = require("jquery");
 const displayPlant = require('./displayGarden');
 
 module.exports.createPlantContainer = (plantObj) => {
-    console.log("Ready to create plant div", plantObj);
-    console.log(plantObj.name);
-    let plantContainer = $(document.createElement('div')).attr('id', `${plantObj.idNum}`).attr('class', "plant").append(`<h2>${plantObj.name}</h2><h3>Plant Cycle: ${plantObj.plantCycle}</h3><h3>Plant in: ${plantObj.plantSeason}</h3><h3>Plant Location: ${plantObj.sunlight}`);
+    let plantContainer = $(document.createElement('div')).attr('id', `${plantObj.idNum}`).attr('class', "plant").append(`<h2>${plantObj.name}</h2><h3>Plant Cycle: ${plantObj.plantCycle}</h3><h3>Plant in: ${plantObj.plantSeason}</h3><h3>Plant Location: ${plantObj.sunlight}</h3><button id="edit${plantObj.idNum}">Edit</button><button id="delete${plantObj.idNum}">Delete</button>`);
     console.log(plantContainer);
     displayPlant.displayPlant(plantContainer);
     };
@@ -31,6 +29,24 @@ module.exports.getPlants = () => {
         })
         .done( (plantData) =>{
             resolve(plantData);
+        })
+        .fail((error) => {
+            reject(error);
+            console.log("error w/ data");
+        });
+    });
+};
+
+module.exports.addPlants = (newPlant) => {
+    return new Promise( (resolve,reject) => {
+        $.ajax({
+            url: "https://fir-a5a79.firebaseio.com/plants.json",
+            method: "POST",
+            data: JSON.stringify(newPlant)
+        })
+        .done( (newPlantData) =>{
+            console.log(newPlantData);
+            resolve(newPlantData);
         })
         .fail((error) => {
             reject(error);
@@ -73,6 +89,19 @@ plantFactory.getPlants()
 .then( (plantData) => {
     // console.log("on main.js", plantData);
     formatData.formatPlantData(plantData);
+});
+
+$("#addPlant").click ( () => {
+    let plantObj = {
+        name: $("#plantName").val(),
+        plantCycle: $("input[name=plantCycle]:checked").val(),
+        plantSeason: $("#plantMonth").val(),
+        sunlight: $("#sunlightNeed").val()
+    };
+    plantFactory.addPlants(plantObj)
+    .then( () => {
+        plantFactory.getPlants();
+    });
 });
 },{"./factory":3,"./formatPlantData":4,"jquery":6}],6:[function(require,module,exports){
 /*!
