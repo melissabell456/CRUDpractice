@@ -5,7 +5,7 @@ const $ = require("jquery");
 const displayPlant = require('./displayGarden');
 
 module.exports.createPlantContainer = (plantObj) => {
-    let plantContainer = $(document.createElement('div')).attr('id', `${plantObj.idNum}`).attr('class', "plant").append(`<h2>${plantObj.name}</h2><h3>Plant Cycle: ${plantObj.plantCycle}</h3><h3>Plant in: ${plantObj.plantSeason}</h3><h3>Plant Location: ${plantObj.sunlight}</h3><button class=edit id=${plantObj.idNum}">Edit</button><button class=delete id="${plantObj.idNum}">Delete</button>`);
+    let plantContainer = $(document.createElement('div')).attr('id', `${plantObj.idNum}`).attr('class', "plant").append(`<h2 class='userInput${plantObj.idNum}'>${plantObj.name}</h2><h3 class='userInput${plantObj.idNum}'>Plant Cycle: ${plantObj.plantCycle}</h3><h3 class='userInput${plantObj.idNum}'>Plant in: ${plantObj.plantSeason}</h3><h3 class='userInput${plantObj.idNum}'>Plant Location: ${plantObj.sunlight}</h3><button class='edit' id='edit${plantObj.idNum}'>Edit</button><button class='submit' id='submit${plantObj.idNum}'>Submit</button><button class='delete' id='delete${plantObj.idNum}'>Delete</button>`);
     displayPlant.displayPlant(plantContainer);
     };
 },{"./displayGarden":2,"jquery":6}],2:[function(require,module,exports){
@@ -59,6 +59,23 @@ module.exports.removePlants = (plantToRemove) => {
         $.ajax({
             url: `https://fir-a5a79.firebaseio.com/plants/${plantToRemove}.json`,
             method: "DELETE",
+        })
+        .done( (updatedData) =>{
+            resolve(updatedData);
+        })
+        .fail((error) => {
+            reject(error);
+            console.log("error deleting data");
+        });
+    });
+};
+
+module.exports.editPlants = (plantToEdit) => {
+    return new Promise( (resolve,reject) => {
+        $.ajax({
+            url: `https://fir-a5a79.firebaseio.com/plants/${plantToEdit}.json`,
+            method: "PATCH",
+            data: JSON.stringify(plantToEdit)
         })
         .done( (updatedData) =>{
             resolve(updatedData);
@@ -128,7 +145,6 @@ $("#addPlant").click ( () => {
 
 $(document).on("click", ".delete", function() {
     let plantClicked = this.id;
-    // $(`#${plantClicked}`).remove();
     plantFactory.removePlants(plantClicked)
     .then( () => {
         return plantFactory.getPlants();
@@ -139,6 +155,30 @@ $(document).on("click", ".delete", function() {
     })
     .catch( (err) => {
         console.log(err);
+    });
+});
+
+$(document).on("click", ".edit", function() {
+    let plantClicked = this.id;
+    let editFields = $(`#${plantClicked}`).children();
+    console.log(editFields);
+    // $(`.userInput${plantClicked}`).append(`<input type="text" id="plantName" placeholder="Plant Name" value="Cucumber"></input>`);
+    // console.log(this, "this");
+    // console.log(plantClicked);
+    // console.log($(`#submit${plantClicked}`));
+    $(`#submit${plantClicked}`).click( function () {
+        console.log("submit button activated");
+        // plantFactory.editPlants(plantClicked)
+        // .then( () => {
+        //     return plantFactory.getPlants();
+        // })
+        // .then ( (updatedData) => {
+        //     formatData.formatPlantData(updatedData);
+        //     alert("Your plant has been deleted");
+        // })
+        // .catch( (err) => {
+        //     console.log(err);
+        // });
     });
 });
 },{"./factory":3,"./formatPlantData":4,"jquery":6}],6:[function(require,module,exports){

@@ -50,3 +50,20 @@ module.exports.removePlants = (plantToRemove) => {
         });
     });
 };
+
+module.exports.editPlants = (plantToEdit) => {
+    return new Promise( (resolve,reject) => {
+        $.ajax({
+            url: `https://fir-a5a79.firebaseio.com/plants/${plantToEdit}.json`,
+            method: "PATCH",
+            data: JSON.stringify(plantToEdit)
+        })
+        .done( (updatedData) =>{
+            resolve(updatedData);
+        })
+        .fail((error) => {
+            reject(error);
+            console.log("error deleting data");
+        });
+    });
+};

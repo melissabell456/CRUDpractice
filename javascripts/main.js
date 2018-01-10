@@ -32,7 +32,6 @@ $("#addPlant").click ( () => {
 
 $(document).on("click", ".delete", function() {
     let plantClicked = this.id;
-    // $(`#${plantClicked}`).remove();
     plantFactory.removePlants(plantClicked)
     .then( () => {
         return plantFactory.getPlants();
@@ -43,5 +42,29 @@ $(document).on("click", ".delete", function() {
     })
     .catch( (err) => {
         console.log(err);
+    });
+});
+
+$(document).on("click", ".edit", function() {
+    let plantClicked = this.id;
+    let editFields = $(`#${plantClicked}`).children();
+    console.log(editFields);
+    // $(`.userInput${plantClicked}`).append(`<input type="text" id="plantName" placeholder="Plant Name" value="Cucumber"></input>`);
+    // console.log(this, "this");
+    // console.log(plantClicked);
+    // console.log($(`#submit${plantClicked}`));
+    $(`#submit${plantClicked}`).click( function () {
+        console.log("submit button activated");
+        // plantFactory.editPlants(plantClicked)
+        // .then( () => {
+        //     return plantFactory.getPlants();
+        // })
+        // .then ( (updatedData) => {
+        //     formatData.formatPlantData(updatedData);
+        //     alert("Your plant has been deleted");
+        // })
+        // .catch( (err) => {
+        //     console.log(err);
+        // });
     });
 });
