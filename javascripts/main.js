@@ -19,6 +19,10 @@ $("#addPlant").click ( () => {
     };
     plantFactory.addPlants(plantObj)
     .then( () => {
-        plantFactory.getPlants();
+        plantFactory.getPlants()
+        .then( (newPlantData) => {
+            console.log("here", newPlantData);   
+            formatData.formatPlantData(newPlantData);
+        });
     });
 });

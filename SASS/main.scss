@@ -1,3 +1,16 @@
 #addPlantForm {
     border: 1px solid black;
 }
+
+#userGarden {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-columns: minmax(100px, auto);
+}
+
+#userGarden div {
+    border: 2px dotted black;
+}
