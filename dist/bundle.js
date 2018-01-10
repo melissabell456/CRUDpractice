@@ -5,7 +5,7 @@ const $ = require("jquery");
 const displayPlant = require('./displayGarden');
 
 module.exports.createPlantContainer = (plantObj) => {
-    let plantContainer = $(document.createElement('div')).attr('id', `${plantObj.idNum}`).attr('class', "plant").append(`<h2>${plantObj.name}</h2><h3>Plant Cycle: ${plantObj.plantCycle}</h3><h3>Plant in: ${plantObj.plantSeason}</h3><h3>Plant Location: ${plantObj.sunlight}</h3><button id="edit${plantObj.idNum}">Edit</button><button id="delete${plantObj.idNum}">Delete</button>`);
+    let plantContainer = $(document.createElement('div')).attr('id', `${plantObj.idNum}`).attr('class', "plant").append(`<h2>${plantObj.name}</h2><h3>Plant Cycle: ${plantObj.plantCycle}</h3><h3>Plant in: ${plantObj.plantSeason}</h3><h3>Plant Location: ${plantObj.sunlight}</h3><button class=edit id=${plantObj.idNum}">Edit</button><button class=delete id="${plantObj.idNum}">Delete</button>`);
     displayPlant.displayPlant(plantContainer);
     };
 },{"./displayGarden":2,"jquery":6}],2:[function(require,module,exports){
@@ -50,6 +50,22 @@ module.exports.addPlants = (newPlant) => {
         .fail((error) => {
             reject(error);
             console.log("error w/ data");
+        });
+    });
+};
+
+module.exports.removePlants = (plantToRemove) => {
+    return new Promise( (resolve,reject) => {
+        $.ajax({
+            url: `https://fir-a5a79.firebaseio.com/plants/${plantToRemove}.json`,
+            method: "DELETE",
+        })
+        .done( (updatedData) =>{
+            resolve(updatedData);
+        })
+        .fail((error) => {
+            reject(error);
+            console.log("error deleting data");
         });
     });
 };
@@ -99,11 +115,30 @@ $("#addPlant").click ( () => {
     };
     plantFactory.addPlants(plantObj)
     .then( () => {
-        plantFactory.getPlants()
-        .then( (newPlantData) => {
-            console.log("here", newPlantData);   
+        return plantFactory.getPlants();
+    })
+    .then( (newPlantData) => {
             formatData.formatPlantData(newPlantData);
-        });
+            alert("Added new plant");
+        })
+    .catch( (err) => {
+        console.log("unable to add data");
+    });
+});
+
+$(document).on("click", ".delete", function() {
+    let plantClicked = this.id;
+    // $(`#${plantClicked}`).remove();
+    plantFactory.removePlants(plantClicked)
+    .then( () => {
+        return plantFactory.getPlants();
+    })
+    .then ( (updatedData) => {
+        formatData.formatPlantData(updatedData);
+        alert("Your plant has been deleted");
+    })
+    .catch( (err) => {
+        console.log(err);
     });
 });
 },{"./factory":3,"./formatPlantData":4,"jquery":6}],6:[function(require,module,exports){

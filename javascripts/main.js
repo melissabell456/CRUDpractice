@@ -19,10 +19,29 @@ $("#addPlant").click ( () => {
     };
     plantFactory.addPlants(plantObj)
     .then( () => {
-        plantFactory.getPlants()
-        .then( (newPlantData) => {
-            console.log("here", newPlantData);   
+        return plantFactory.getPlants();
+    })
+    .then( (newPlantData) => {
             formatData.formatPlantData(newPlantData);
-        });
+            alert("Added new plant");
+        })
+    .catch( (err) => {
+        console.log("unable to add data");
+    });
+});
+
+$(document).on("click", ".delete", function() {
+    let plantClicked = this.id;
+    // $(`#${plantClicked}`).remove();
+    plantFactory.removePlants(plantClicked)
+    .then( () => {
+        return plantFactory.getPlants();
+    })
+    .then ( (updatedData) => {
+        formatData.formatPlantData(updatedData);
+        alert("Your plant has been deleted");
+    })
+    .catch( (err) => {
+        console.log(err);
     });
 });

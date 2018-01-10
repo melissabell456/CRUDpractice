@@ -34,3 +34,19 @@ module.exports.addPlants = (newPlant) => {
         });
     });
 };
+
+module.exports.removePlants = (plantToRemove) => {
+    return new Promise( (resolve,reject) => {
+        $.ajax({
+            url: `https://fir-a5a79.firebaseio.com/plants/${plantToRemove}.json`,
+            method: "DELETE",
+        })
+        .done( (updatedData) =>{
+            resolve(updatedData);
+        })
+        .fail((error) => {
+            reject(error);
+            console.log("error deleting data");
+        });
+    });
+};
